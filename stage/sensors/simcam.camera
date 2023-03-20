@@ -1,0 +1,11 @@
+# Stage simulator model of a camera
+
+define simcam camera
+(
+    resolution [ 640 480 ]
+    range [ 0.2 40.0 ]
+    fov [ 69.0 42.0 ]
+    pantilt [ 0.0 0.0 ]
+
+    color "grey"
+)
