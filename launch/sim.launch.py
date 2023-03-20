@@ -10,7 +10,7 @@ def generate_launch_description():
                     FindPackageShare('maila_2d_sim'),
                     'stage',
                     'worlds',
-                    'simple_field',
+                    'willow_garage',
                     'main.world'
                 ])
 
