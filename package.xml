@@ -4,7 +4,7 @@
   <name>maila_2d_sim</name>
   <version>0.0.0</version>
   <description>Package containing the configuration of the 2D simulation of the Maila project.</description>
-  <maintainer email="magnago@magazino.eu">ros</maintainer>
+  <maintainer email="valerio.magnago@hotmail.it">Valerio Magnago</maintainer>
   <license>BSD-3-Clause</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
