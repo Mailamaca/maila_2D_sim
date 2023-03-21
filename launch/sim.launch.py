@@ -8,8 +8,9 @@ from launch_ros.actions import SetParameter
 def generate_launch_description():
     default_world = PathJoinSubstitution([
                     FindPackageShare('maila_2d_sim'),
+                    'stage',
                     'worlds',
-                    'simple_field',
+                    'willow_garage',
                     'main.world'
                 ])
 

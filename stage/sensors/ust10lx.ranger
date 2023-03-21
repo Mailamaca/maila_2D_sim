@@ -1,0 +1,13 @@
+# Stage simulator model of 'Hokuyo UST-10LX' LiDAR
+
+define ust10lx ranger
+(
+    sensor(
+        range [ 0.0  10.0 ]
+        fov 270.0
+        samples 3243
+    )
+
+    # generic model properties
+    color "orange"
+)

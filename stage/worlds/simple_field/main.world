@@ -1,0 +1,35 @@
+# A simple italian flag world.
+
+include "../../models/tx2.model"
+
+define test_block model
+(
+    size [1.0 1.0 0.5]
+    gui_nose 0
+)
+
+# throw in a robot
+tx2( pose [ 5 0 0 0 ] name "car" color "blue")
+
+# :it: flag test blocks, use them interactively to obstacolate the robot.
+test_block
+(
+    name "test_block_0"
+    pose [0.0 0.0 0.0 0.0]
+    color "red"
+)
+
+test_block
+(
+    name "test_block_1"
+    pose [-1.0 0.0 0.0 0.0]
+    color "white"
+)
+
+test_block
+(
+    name "test_block_2"
+    pose [-2.0 0.0 0.0 0.0]
+    color "green"
+)
+
