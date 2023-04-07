@@ -1,0 +1,41 @@
+# Stage simulator model of 'tx2-auto-3'
+# Credits: https://github.com/pokusew/f1tenth-rewrite/tree/main/src/storage/stage
+
+
+# These relative path should be specified respect to the `main.world` file see:
+# https://github.com/Mailamaca/stage/issues/1
+include "../../sensors/ust10lx.ranger"
+# include "../../sensors/simcam.camera"
+
+
+define car position
+(
+    # size
+    size [0.563 0.470 0.200]
+    origin [0.172828879 0 0 0]
+    gui_nose 1
+
+    bitmap "../../models/traxxas_summit/footprint.png"
+
+    # kinematic model
+    drive "diff"
+
+    # type of localization
+    localization "gps"
+    # gps = absolute
+    # odom = relative
+
+     # [ xmin xmax ymin ymax zmin zmax amin amax ]
+    velocity_bounds [-1.5 1.5 0 0 0 0 -90 90]
+
+    # LiDAR
+    # position in metres, the centre of rotation offset must be added
+    # and initial position
+    ust10lx ( pose [ 0.0 0 0.25 0 ] size [ 0.05 0.05 0.035 ] )
+
+    # Camera
+    # temporary disabled so we can run simulation without GUI (and camera requires GUI)
+    # simcam ( pose [ -0.1375 0 0.175 0 ] size [ 0.025 0.09 0.025 ] )
+
+    stack_children 0
+)

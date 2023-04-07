@@ -1,6 +1,6 @@
 # A simple italian flag world.
 
-include "../../models/tx2.model"
+include "../../models/traxxas_summit/car.model"
 
 define test_block model
 (
@@ -9,7 +9,7 @@ define test_block model
 )
 
 # throw in a robot
-tx2( pose [ 5 0 0 0 ] name "car" color "blue")
+car( pose [ 5 0 0 0 ] name "car" color "blue")
 
 # :it: flag test blocks, use them interactively to obstacolate the robot.
 test_block
