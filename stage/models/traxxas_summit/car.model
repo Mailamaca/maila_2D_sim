@@ -1,5 +1,4 @@
-# Stage simulator model of 'tx2-auto-3'
-# Credits: https://github.com/pokusew/f1tenth-rewrite/tree/main/src/storage/stage
+# Stage simulator model of 'traxxas-summit'
 
 
 # These relative path should be specified respect to the `main.world` file see:
@@ -19,6 +18,9 @@ define car position
 
     # kinematic model
     drive "diff"
+
+    # update frequency
+    update_interval 20
 
     # type of localization
     localization "gps"
