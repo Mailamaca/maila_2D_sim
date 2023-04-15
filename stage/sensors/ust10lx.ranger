@@ -3,11 +3,12 @@
 define ust10lx ranger
 (
     sensor(
-        range [ 0.0  10.0 ]
-        fov 270.0
+        range [ 0.0  12.0 ]
+        fov 3600.0
         samples 3243
     )
 
     # generic model properties
     color "orange"
+    update_interval 100 # sensor frequency [ms]
 )

@@ -1,7 +1,7 @@
 
 
 
-include "../../models/tx2.model"
+include "../../models/traxxas_summit/car.model"
 
 define floorplan model
 (
@@ -44,4 +44,4 @@ floorplan
 )
 
 # throw in a robot
-tx2( pose [ -33 13 0 0 ] name "car" color "blue")
+car( pose [ -33 13 0 0 ] name "car" color "blue")
