@@ -1,0 +1,176 @@
+<mvsim_world version="1.0">
+    <!-- =============================
+		   General simulation options
+	     ============================= -->
+    <simul_timestep>0</simul_timestep>    <!-- Simulation fixed-time interval for numerical integration [seconds] or 0 to autodetermine -->
+    <joystick_enabled>false</joystick_enabled>
+
+    <!-- GUI options -->
+    <gui>
+        <ortho>false</ortho>
+        <show_forces>false</show_forces>
+        <force_scale>0.01</force_scale>
+        <cam_distance>10</cam_distance>
+        <fov_deg>60</fov_deg>
+        <refresh_fps>10</refresh_fps>
+        <cam_point_to>1.5 13</cam_point_to>
+        <!-- <follow_vehicle>r1</follow_vehicle> -->
+    </gui>
+
+    <!-- Light parameters -->
+    <lights>
+        <enable_shadows>false</enable_shadows>
+        <!-- <shadow_map_size>1024</shadow_map_size> -->
+        <light_azimuth_deg>160.0</light_azimuth_deg>
+        <light_elevation_deg>40.0</light_elevation_deg>
+    </lights>
+
+    <!-- =============================
+		   Environment classes definition
+	     ============================= -->
+
+<variable name="NUM_TILTED_BEAMS_X" value="21"></variable>
+<variable name="NUM_TILTED_BEAMS_Y" value="10"></variable>
+
+<variable name="NUM_CORRIDORS_X" value="10"></variable>
+
+<variable name="NUM_PLANTS_CORRIDOR_SOUTH" value="8"></variable>
+<variable name="NUM_PLANTS_CORRIDOR_NORTH" value="12"></variable>
+
+<variable name="NUM_POLES_X" value="10"></variable>
+<variable name="NUM_POLES_Y" value="10"></variable>
+
+<variable name="PLANTS_RAND_XY" value="0.35"></variable>
+
+<variable name="CEILING_HEIGHT" value="3.0"></variable>
+
+<!-- ========================
+		Scenario definition
+		======================== -->
+<!-- ground -->
+<element class="horizontal_plane">
+	<cull_face>BACK</cull_face>
+	<x_min>0</x_min>  <y_min>0</y_min>
+	<x_max>60</x_max> <y_max>30</y_max>
+	<z>0.0</z>
+	<!-- <texture>https://mrpt.github.io/mvsim-models/textures-cgbookcase/Dirt01_512_BaseColor.png</texture> -->
+	<texture>./dirt_and_grass.jpg</texture>
+	<!-- <texture_size_x>1.5</texture_size_x> -->
+	<!-- <texture_size_y>1.5</texture_size_y> -->
+</element>
+
+
+
+<!-- ======================================
+		Object types
+		====================================== -->
+<block:class name="pole_tilted">
+	<static>true</static> <!-- Does not move -->
+	<shape_from_visual/> <!-- automatic shape,zmin,zmax from 3D mesh-->
+	<!--  Custom visualization model. 3D model filename to load (local or remote http://uri ) -->
+	<visual>
+		<model_uri>./pole_tilted_he120e.stl</model_uri>
+		<model_offset_z>1.2</model_offset_z>
+		<model_roll>90.0</model_roll>
+        <model_scale>1.0</model_scale>
+	</visual>
+</block:class>
+
+<block:class name="pole_009">
+	<static>true</static> <!-- Does not move -->
+	<shape_from_visual/> <!-- automatic shape,zmin,zmax from 3D mesh-->
+	<!--  Custom visualization model. 3D model filename to load (local or remote http://uri ) -->
+	<visual>
+		<model_uri>./pole_009.stl</model_uri>
+		<model_offset_z>1.2</model_offset_z>
+        <model_scale>1.0</model_scale>
+	</visual>
+</block:class>
+
+<block:class name="pole_004">
+	<static>true</static> <!-- Does not move -->
+	<shape_from_visual/> <!-- automatic shape,zmin,zmax from 3D mesh-->
+	<!--  Custom visualization model. 3D model filename to load (local or remote http://uri ) -->
+	<visual>
+		<model_uri>./pole_004.stl</model_uri>
+		<model_offset_z>1.2</model_offset_z>
+        <model_scale>1.0</model_scale>
+	</visual>
+</block:class>
+
+<block:class name="red_apple_tree">
+	<static>true</static> <!-- Does not move -->
+	<mass>5</mass>
+	<shape_from_visual/> <!-- automatic shape,zmin,zmax from 3D mesh-->
+	<!--  Custom visualization model. 3D model filename to load (local or remote http://uri ) -->
+	<visual>
+		<model_uri>./tomato_plant_240cm.dae</model_uri>
+		<model_scale>1.0</model_scale>
+		<model_roll>90.0</model_roll>
+		<model_offset_z>-0.05</model_offset_z>
+	</visual>
+</block:class>
+
+<!-- ======================================
+		Object instances
+		====================================== -->
+<!-- You can assign an optional custom name to each object, as an attribute to block, like name="shelf_001", etc. -->
+
+<!-- All coordinates are global coords:
+		SE(2) <init_pose>x y yaw(deg)</init_pose> or
+		SE(3) <init_pose3d>x y z yaw(deg) pitch(deg) roll(deg)</init_pose3d>
+-->
+
+<variable name="NUM_ROWS" value="5"></variable>
+<variable name="X_0" value="10"></variable>
+<variable name="Y_0" value="10"></variable>
+<!-- suggested between 2.9 m e 3.5 m (https://feno.it/trainingsystem/). -->
+<variable name="ROW_WIDTH" value="3"></variable>
+<!-- suggested between 0.7 m e 1.0 m in the SPINDEL system (https://feno.it/trainingsystem/). -->
+<variable name="TREE_DISTANCE" value="0.8"></variable>
+<variable name="NUM_TREES_PER_ROW" value="50"></variable>
+<variable name="PLANTS_RAND_XY" value="0.10"></variable>
+
+<variable name="NUM_TREES_PER_ROW" value="50"></variable>
+<variable name="NUM_TREES_PER_POLE" value="5"></variable>
+
+<variable name="ROW_LENGTH" value="$f{NUM_TREES_PER_ROW*TREE_DISTANCE}"></variable>
+
+<for var="i" from="0" to="$f{NUM_ROWS-1}">
+	<block class="pole_tilted">
+		<init_pose>$f{X_0} $f{Y_0 + ROW_WIDTH*i} 90</init_pose>
+	</block>
+
+    <for var="j" from="0" to="$f{NUM_TREES_PER_ROW-1}">
+		<block class="red_apple_tree">
+			<init_pose>$f{X_0+TREE_DISTANCE*j+rand()*PLANTS_RAND_XY} $f{Y_0 + ROW_WIDTH*i+rand()*PLANTS_RAND_XY} $f{rand()*360}</init_pose>
+		</block>
+        <!-- To check the available operation: https://github.com/ArashPartow/exprtk -->
+		<if condition="$f{if((j%NUM_TREES_PER_POLE)==0 and j!=0 and j!=(NUM_TREES_PER_ROW-1), 1, 0)}">
+			<block class="pole_009" name="pole_$f{i}_$f{j}">
+				<init_pose>$f{X_0+TREE_DISTANCE*j+rand()*PLANTS_RAND_XY + TREE_DISTANCE/2} $f{Y_0 + ROW_WIDTH*i+rand()*PLANTS_RAND_XY} $f{rand()*360}</init_pose>
+				<publish>
+					<publish_pose_topic>/${NAME}/pose</publish_pose_topic>
+					<publish_pose_period>50e-3</publish_pose_period>
+				</publish>
+			</block>
+		</if>
+    </for>
+
+	<block class="pole_tilted">
+		<init_pose>$f{X_0 + ROW_LENGTH} $f{Y_0 + ROW_WIDTH*i} -90</init_pose>
+	</block>
+</for>
+
+    <!-- =============================
+		   Vehicle(s) definition
+	     ============================= -->
+    <include file="../robots/maila.robot.xml" />
+
+    <vehicle name="maila-1991" class="maila_car">
+        <init_pose>10 11.5 0</init_pose>
+        <init_vel>0 0 0</init_vel>
+    </vehicle>
+
+
+</mvsim_world>

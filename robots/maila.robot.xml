@@ -1,0 +1,115 @@
+<!--
+  Vehicle class definition file.
+  Intended to be included into world XML files.
+  Common sensors could be included here, but they are left to be included in
+  class instantiations.
+  Refer to mvsim_tutorial example files.
+-->
+<vehicle:class name="maila_car">
+
+    <!--  Dynamical model -->
+    <dynamics class="ackermann">
+        <!-- Rear wheels -->
+        <rl_wheel pos="0  0.15" mass="0.1" width="0.017" diameter="0.083" />
+        <rr_wheel pos="0 -0.15" mass="0.1" width="0.017" diameter="0.083" />
+
+        <!-- Front wheels -->
+        <fl_wheel mass="0.1" width="0.017" diameter="0.083" />
+        <fr_wheel mass="0.1" width="0.017" diameter="0.083" />
+
+        <!-- Distance between the rear and the front axes -->
+        <f_wheels_x>0.32</f_wheels_x>
+
+        <!-- Distance between centers of the left and right wheels -->
+        <f_wheels_d>$f{2*0.15}</f_wheels_d>
+
+        <!-- Ackermann front wheels maximum angle to each side (so, the overall range will be twice this value)  -->
+        <max_steer_ang_deg>35.0</max_steer_ang_deg>
+
+        <chassis mass="8.0" zmin="0.1" zmax="0.30">
+        <!-- automatic shape,zmin,zmax from 3D mesh-->
+        <shape_from_visual/>
+        </chassis>
+
+        <!--   Motor controller -->
+        <controller class="twist_front_steer_pid">
+            <!-- Params -->
+            <KP>1500</KP>  <KI>50</KI> <I_MAX>20</I_MAX> <KD>0</KD>
+            <V>0.0</V><W>0</W>
+            <max_torque>600</max_torque>
+        </controller>
+
+        <!-- Available types:
+            open_front
+            open_rear
+            open_4wd
+            torsen_front
+            torsen_rear
+            torsen_4wd -->
+        <drivetrain type="torsen_4wd">
+            <front_rear_split>0.3</front_rear_split>
+            <front_rear_bias>1.5</front_rear_bias>
+
+            <front_left_right_split>0.5</front_left_right_split>
+            <front_left_right_bias>1.5</front_left_right_bias>
+
+            <rear_left_right_split>0.5</rear_left_right_split>
+            <rear_left_right_bias>1.5</rear_left_right_bias>
+        </drivetrain>
+
+    </dynamics>
+
+    <!-- Friction force simulation -->
+    <friction class="default">
+        <mu>0.7</mu>
+        <C_damping>10</C_damping>
+    </friction>
+
+    <!--<friction class="wardiagnemma">
+        <mu>0.7</mu>
+        <C_damping>10</C_damping>
+        <A_roll>50</A_roll>
+        <R1>0.0075</R1>
+        <R2>0.02</R2>
+    </friction>-->
+
+    <!--  Sensors -->
+    <include file="./sensors/3d_lidar/3d_lidar.sensor.xml"
+        sensor_name="top_3d_scanner"
+        sensor_x="0" sensor_y="0" sensor_z="0.30" sensor_yaw="0"
+        sensor_std_noise="0.005"
+        sensor_frequency="5"
+        horz_resolution_factor="1.0"
+        vert_resolution_factor="1.0"
+        vert_nrays="32"
+        max_range="30"
+    />
+
+    <include file="$(ros2 pkg prefix mvsim)/share/mvsim/definitions/imu.sensor.xml"
+        sensor_x="0.0" sensor_y="0.0" sensor_z="0.0"
+        sensor_period_sec="$f{1/200.0}"
+    />
+
+
+    <visual>
+        <!-- <model_uri>https://mrpt.github.io/mvsim-models/robot-agricobiot2/base.dae</model_uri> -->
+        <model_uri>${MVSIM_CURRENT_FILE_DIRECTORY}/chassis.dae</model_uri>
+        <model_offset_z>$f{0.083}</model_offset_z>
+    </visual>
+    <!-- <visual>
+        <name>support-right-front-wheel</name>
+        <model_uri>https://mrpt.github.io/mvsim-models/robot-agricobiot2/wheel-support.dae</model_uri>
+        <model_offset_x>0.62</model_offset_x>
+        <model_offset_y>-0.2</model_offset_y>
+        <model_offset_z>0.203</model_offset_z>
+        <model_roll>90.0</model_roll>
+    </visual>
+    <visual>
+        <name>support-left-front-wheel</name>
+        <model_uri>https://mrpt.github.io/mvsim-models/robot-agricobiot2/wheel-support.dae</model_uri>
+        <model_offset_x>0.62</model_offset_x>
+        <model_offset_y>0.2</model_offset_y>
+        <model_offset_z>0.203</model_offset_z>
+        <model_roll>90.0</model_roll>
+    </visual> -->
+</vehicle:class>
